@@ -1,0 +1,11 @@
+.margin {
+  margin: 100px;
+}
+.margin table {
+  width: 100%;
+  text-align: left;
+}
+.margin table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
