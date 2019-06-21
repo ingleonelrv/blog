@@ -2,11 +2,18 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import Menu from "./Menu";
 import Users from "./Users/index";
+import Publications from "./Publications/index";
+
+const Tasks = () => <div>Tasks</div>;
 
 const App = () => (
   <BrowserRouter>
     <Menu />
-    <Route exact path="/" component={Users} />
+    <div className="margin">
+      <Route exact path="/" component={Users} />
+      <Route exact path="/tasks" component={Tasks} />
+      <Route exact path="/publications/:index" component={Publications} />
+    </div>
   </BrowserRouter>
 );
 

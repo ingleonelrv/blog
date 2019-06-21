@@ -23,7 +23,7 @@ class Users extends Component {
   render() {
     console.log(this.props.loading);
     return (
-      <div className="margin">
+      <div>
         <h1>Users</h1>
         {this.putContent()}
       </div>
