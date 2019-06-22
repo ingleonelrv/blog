@@ -23,6 +23,7 @@ class Users extends Component {
     return <UsersTable />;
   };
   render() {
+    console.log(this.props);
     return (
       <div>
         <h1>Users</h1>
