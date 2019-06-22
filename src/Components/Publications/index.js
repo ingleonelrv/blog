@@ -4,10 +4,15 @@ import * as usersActions from "../../Actions/usersActions";
 import * as publicationsActions from "../../Actions/publicationsActions";
 import Loading from "../Global/Spinner";
 import NotFound from "../Global/NotFound";
+import Comments from "./Comments";
 import "./Publications.css";
 
 const { getAll: getAllUsers } = usersActions;
-const { bringByUser: bringByUserPublications, openClose } = publicationsActions;
+const {
+  bringByUser: bringByUserPublications,
+  openClose,
+  bringComments
+} = publicationsActions;
 
 class Publications extends Component {
   async componentDidMount() {
@@ -71,15 +76,25 @@ class Publications extends Component {
           key={publication.id}
           className="publication"
           onClick={() =>
-            this.props.openClose(publications_index, comment_index)
+            this.showComments(
+              publications_index,
+              comment_index,
+              publication.comments
+            )
           }
         >
           <h3>{publication.title}</h3>
           <p>{publication.body}</p>
-          {publication.open ? "Open" : "Close"}
+          {publication.open ? <Comments /> : null}
         </div>
       );
     });
+  showComments = (publications_index, comment_index, comments) => {
+    this.props.openClose(publications_index, comment_index);
+    if (!comments.length) {
+      this.props.bringComments(publications_index, comment_index);
+    }
+  };
   render() {
     console.log(this.props);
     return (
@@ -93,7 +108,12 @@ class Publications extends Component {
 const mapStateToProps = ({ usersReducer, publicationsReducer }) => {
   return { usersReducer, publicationsReducer };
 };
-const mapDispatchToProps = { getAllUsers, bringByUserPublications, openClose };
+const mapDispatchToProps = {
+  getAllUsers,
+  bringByUserPublications,
+  openClose,
+  bringComments
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

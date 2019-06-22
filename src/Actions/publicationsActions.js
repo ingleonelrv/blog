@@ -72,3 +72,38 @@ export const openClose = (publications_index, comment_index) => (
     payload: updatedPublications
   });
 };
+export const bringComments = (publications_index, comment_index) => async (
+  dispatch,
+  getState
+) => {
+  //select a publications where i'm goint to bring comments
+  const { publications } = getState().publicationsReducer;
+  const selected = publications[publications_index][comment_index];
+  try {
+    const response = await trae.get(
+      `https://jsonplaceholder.typicode.com/comments?postId=${selected.id}`
+    );
+    const selectedUpd = {
+      ...selected,
+      comments: response.data
+    };
+    //INMUTABLE,level by level
+    //first level, array of array
+    const updatedPublications = [...publications];
+    //second level, array of publications of user
+    updatedPublications[publications_index] = [
+      ...publications[publications_index]
+    ];
+    //thrid level, publications selected and updated
+    updatedPublications[publications_index][comment_index] = selectedUpd;
+    dispatch({
+      type: GET_POSTS,
+      payload: updatedPublications
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: "Comments not available!"
+    });
+  }
+};
