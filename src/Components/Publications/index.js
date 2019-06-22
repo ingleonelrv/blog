@@ -7,7 +7,7 @@ import NotFound from "../Global/NotFound";
 import "./Publications.css";
 
 const { getAll: getAllUsers } = usersActions;
-const { bringByUser: bringByUserPublications } = publicationsActions;
+const { bringByUser: bringByUserPublications, openClose } = publicationsActions;
 
 class Publications extends Component {
   async componentDidMount() {
@@ -23,7 +23,7 @@ class Publications extends Component {
       await getAllUsers();
     }
     if (this.props.usersReducer.error) return;
-    if (!("publications_key" in this.props.usersReducer.users[index])) {
+    if (!("publications_index" in this.props.usersReducer.users[index])) {
       bringByUserPublications(index);
     }
   }
@@ -60,17 +60,25 @@ class Publications extends Component {
     //if users is loading mean that publications isn't load yet then return nothing
     if (!publications.length) return;
     //wait while load the post for the user
-    if (!("publications_key" in users[index])) return;
-    const { publications_key } = users[index];
-    return publications[publications_key].map(publication => {
+    if (!("publications_index" in users[index])) return;
+    const { publications_index } = users[index];
+    return this.showInfo(publications[publications_index], publications_index);
+  };
+  showInfo = (publications, publications_index) =>
+    publications.map((publication, comment_index) => {
       return (
-        <div key={publication.id} className="publication">
+        <div
+          key={publication.id}
+          className="publication"
+          onClick={() =>
+            this.props.openClose(publications_index, comment_index)
+          }
+        >
           <h3>{publication.title}</h3>
           <p>{publication.body}</p>
         </div>
       );
     });
-  };
   render() {
     console.log(this.props);
     return (
@@ -84,7 +92,7 @@ class Publications extends Component {
 const mapStateToProps = ({ usersReducer, publicationsReducer }) => {
   return { usersReducer, publicationsReducer };
 };
-const mapDispatchToProps = { getAllUsers, bringByUserPublications };
+const mapDispatchToProps = { getAllUsers, bringByUserPublications, openClose };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
