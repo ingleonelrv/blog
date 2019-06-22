@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import "./Users.css";
-import * as usersActions from "../../Actions/usersAction";
+import * as usersActions from "../../Actions/usersActions";
 import Spinner from "../Global/Spinner";
 import NotFound from "../Global/NotFound";
 import UsersTable from "./UsersTable";

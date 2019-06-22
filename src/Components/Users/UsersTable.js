@@ -11,7 +11,7 @@ const UsersTable = props => {
         <td>{user.website}</td>
         <td>
           <Link to={`/publications/${index}`}>
-            <div class="eye-solid icon" />
+            <div className="eye-solid icon" />
           </Link>
         </td>
       </tr>
