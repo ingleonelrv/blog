@@ -30,7 +30,7 @@ export const bringByUser = index => async (dispatch, getState) => {
     });
     //get the index of new post for passing to users
     const publications_index = updatedPublications.length - 1;
-    //update users
+    //update users, Inmutable
     const updatedUsers = [...users];
     //in the position of the user clicked add a new field to say user which is the post's index, such as a relation
     updatedUsers[index] = {
@@ -48,6 +48,27 @@ export const bringByUser = index => async (dispatch, getState) => {
     });
   }
 };
-export const openClose = (publications_index, comment_index) => dispatch => {
-  alert("Hello in OpenClose Action");
+export const openClose = (publications_index, comment_index) => (
+  dispatch,
+  getState
+) => {
+  const { publications } = getState().publicationsReducer;
+  const selected = publications[publications_index][comment_index];
+  const selectedUpd = {
+    ...selected,
+    open: !selected.open
+  };
+  //INMUTABLE,level by level
+  //first level, array of array
+  const updatedPublications = [...publications];
+  //second level, array of publications of user
+  updatedPublications[publications_index] = [
+    ...publications[publications_index]
+  ];
+  //thrid level, publications selected and updated
+  updatedPublications[publications_index][comment_index] = selectedUpd;
+  dispatch({
+    type: GET_POSTS,
+    payload: updatedPublications
+  });
 };

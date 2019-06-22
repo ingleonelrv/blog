@@ -76,6 +76,7 @@ class Publications extends Component {
         >
           <h3>{publication.title}</h3>
           <p>{publication.body}</p>
+          {publication.open ? "Open" : "Close"}
         </div>
       );
     });
