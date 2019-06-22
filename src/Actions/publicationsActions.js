@@ -1,5 +1,12 @@
 import trae from "trae";
-import { GET_POSTS, LOADING, ERROR } from "../Types/publicationsTypes";
+import {
+  GET_POSTS,
+  LOADING,
+  ERROR,
+  LOADING_COMMENTS,
+  ERROR_COMMENT,
+  GET_COMMENTS
+} from "../Types/publicationsTypes";
 import { GET_USERS } from "../Types/usersTypes";
 
 export const bringByUser = index => async (dispatch, getState) => {
@@ -76,6 +83,9 @@ export const bringComments = (publications_index, comment_index) => async (
   dispatch,
   getState
 ) => {
+  dispatch({
+    type: LOADING_COMMENTS
+  });
   //select a publications where i'm goint to bring comments
   const { publications } = getState().publicationsReducer;
   const selected = publications[publications_index][comment_index];
@@ -97,13 +107,13 @@ export const bringComments = (publications_index, comment_index) => async (
     //thrid level, publications selected and updated
     updatedPublications[publications_index][comment_index] = selectedUpd;
     dispatch({
-      type: GET_POSTS,
+      type: GET_COMMENTS,
       payload: updatedPublications
     });
   } catch (error) {
     dispatch({
-      type: ERROR,
-      payload: "Comments not available!"
+      type: ERROR_COMMENT,
+      payload: "Comments couldn't loaded!"
     });
   }
 };
