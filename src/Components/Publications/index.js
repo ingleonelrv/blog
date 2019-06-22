@@ -4,6 +4,7 @@ import * as usersActions from "../../Actions/usersActions";
 import * as publicationsActions from "../../Actions/publicationsActions";
 import Loading from "../Global/Spinner";
 import NotFound from "../Global/NotFound";
+import "./Publications.css";
 
 const { getAll: getAllUsers } = usersActions;
 const { bringByUser: bringByUserPublications } = publicationsActions;
@@ -39,10 +40,45 @@ class Publications extends Component {
     const { name } = usersReducer.users[index];
     return <h1>Publications of {name}</h1>;
   };
-
+  putPosts = () => {
+    const {
+      usersReducer,
+      usersReducer: { users },
+      publicationsReducer,
+      publicationsReducer: { publications },
+      match: {
+        params: { index }
+      }
+    } = this.props;
+    //maybe is loading yet
+    if (!users.length) return;
+    //doing nothing because already drive in putUser
+    if (usersReducer.error) return;
+    if (publicationsReducer.loading) return <Loading />;
+    if (publicationsReducer.error)
+      return <NotFound message={publicationsReducer.error} />;
+    //if users is loading mean that publications isn't load yet then return nothing
+    if (!publications.length) return;
+    //wait while load the post for the user
+    if (!("publications_key" in users[index])) return;
+    const { publications_key } = users[index];
+    return publications[publications_key].map(publication => {
+      return (
+        <div key={publication.id} className="publication">
+          <h3>{publication.title}</h3>
+          <p>{publication.body}</p>
+        </div>
+      );
+    });
+  };
   render() {
     console.log(this.props);
-    return <div>{this.putUser()}</div>;
+    return (
+      <div>
+        {this.putUser()}
+        {this.putPosts()}
+      </div>
+    );
   }
 }
 const mapStateToProps = ({ usersReducer, publicationsReducer }) => {
