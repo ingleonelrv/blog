@@ -8,7 +8,7 @@ const { bringByUser: bringByUserPublications } = publicationsActions;
 
 class Publications extends Component {
   async componentDidMount() {
-    if (!this.props.usersReducer.users.lenght) {
+    if (!this.props.usersReducer.users.length) {
       await this.props.getAllUsers();
     }
     this.props.bringByUserPublications(this.props.match.params.index);
