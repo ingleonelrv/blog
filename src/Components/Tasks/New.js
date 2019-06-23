@@ -8,6 +8,21 @@ import Loading from "../Global/Spinner";
 import NotFound from "../Global/NotFound";
 
 class New extends Component {
+  componentDidMount() {
+    const {
+      match: {
+        params: { us_id, tk_id }
+      },
+      tasks,
+      changeUserId,
+      changeTitle
+    } = this.props;
+    if (us_id && tk_id) {
+      const task = tasks[us_id][tk_id];
+      changeUserId(task.userId);
+      changeTitle(task.title);
+    }
+  }
   changeUserId = e => {
     this.props.changeUserId(e.target.value);
   };
@@ -15,13 +30,32 @@ class New extends Component {
     this.props.changeTitle(e.target.value);
   };
   handleSave = () => {
-    const { userId, title, addTask } = this.props;
+    const {
+      userId,
+      title,
+      match: {
+        params: { us_id, tk_id }
+      },
+      tasks,
+      addTask,
+      editTask
+    } = this.props;
     const newTask = {
       userId,
       title,
       completed: false
     };
-    addTask(newTask);
+    if (us_id && tk_id) {
+      const task = tasks[us_id][tk_id];
+      const editedTask = {
+        ...newTask,
+        completed: task.completed,
+        id: task.id
+      };
+      editTask(editedTask);
+    } else {
+      addTask(newTask);
+    }
   };
   disableButton = () => {
     const { userId, title, loading } = this.props;

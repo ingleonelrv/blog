@@ -5,7 +5,7 @@ import {
   ERROR,
   CHANGE_USER_ID,
   CHANGE_TITLE,
-  TASK_ADDED
+  TASK_SAVED
 } from "../Types/tasksTypes";
 
 export const getAll = () => async dispatch => {
@@ -61,7 +61,27 @@ export const addTask = newTask => async dispatch => {
       newTask
     );
     dispatch({
-      type: TASK_ADDED
+      type: TASK_SAVED
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: "Tasks couldn't saved!"
+    });
+  }
+};
+export const editTask = editTask => async dispatch => {
+  console.log(editTask);
+  dispatch({
+    type: LOADING
+  });
+  try {
+    const response = await trae.put(
+      `https://jsonplaceholder.typicode.com/todos/${editTask.id}`,
+      editTask
+    );
+    dispatch({
+      type: TASK_SAVED
     });
   } catch (error) {
     dispatch({

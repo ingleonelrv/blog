@@ -11,7 +11,6 @@ import * as tasksActions from "../../Actions/tasksActions";
 class Tasks extends Component {
   componentDidMount() {
     if (!Object.keys(this.props.tasks).length) {
-      console.log("no tasks");
       this.props.getAll();
     }
   }
@@ -36,6 +35,10 @@ class Tasks extends Component {
       <div key={tk_id}>
         <input type="checkbox" defaultChecked={byUser[tk_id].completed} />
         {byUser[tk_id].title}
+        <button className="m-left">
+          <Link to={`/tasks/new/${us_id}/${tk_id}`}>Edit</Link>
+        </button>
+        <button className="m-left">Delete</button>
       </div>
     ));
   };
