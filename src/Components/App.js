@@ -4,6 +4,7 @@ import Menu from "./Menu";
 import Users from "./Users/index";
 import Publications from "./Publications/index";
 import Tasks from "./Tasks/index";
+import NewTask from "./Tasks/New";
 
 const App = () => (
   <BrowserRouter>
@@ -11,6 +12,7 @@ const App = () => (
     <div className="margin">
       <Route exact path="/" component={Users} />
       <Route exact path="/tasks" component={Tasks} />
+      <Route exact path="/tasks/new" component={NewTask} />
       <Route exact path="/publications/:index" component={Publications} />
     </div>
   </BrowserRouter>
