@@ -1,5 +1,11 @@
 import trae from "trae";
-import { GET_TASKS, LOADING, ERROR } from "../Types/tasksTypes";
+import {
+  GET_TASKS,
+  LOADING,
+  ERROR,
+  CHANGE_USER_ID,
+  CHANGE_TITLE
+} from "../Types/tasksTypes";
 
 export const getAll = () => async dispatch => {
   dispatch({
@@ -31,4 +37,16 @@ export const getAll = () => async dispatch => {
       payload: "Tasks not available!"
     });
   }
+};
+export const changeUserId = userId => async dispatch => {
+  dispatch({
+    type: CHANGE_USER_ID,
+    payload: userId
+  });
+};
+export const changeTitle = title => async dispatch => {
+  dispatch({
+    type: CHANGE_TITLE,
+    payload: title
+  });
 };
