@@ -11,12 +11,13 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   userId: "",
-  title: ""
+  title: "",
+  redirect: false
 };
 function tasksReducer(state = INITIAL_STATE, { type, payload }) {
   switch (type) {
     case GET_TASKS:
-      return { ...state, tasks: payload, loading: false };
+      return { ...state, tasks: payload, loading: false, redirect: false };
     case LOADING:
       return { ...state, loading: true };
     case ERROR:
@@ -26,7 +27,15 @@ function tasksReducer(state = INITIAL_STATE, { type, payload }) {
     case CHANGE_TITLE:
       return { ...state, title: payload };
     case TASK_ADDED:
-      return { ...state, task: [], loading: false, error: null };
+      return {
+        ...state,
+        tasks: [],
+        loading: false,
+        error: null,
+        redirect: true,
+        userId: "",
+        title: ""
+      };
     default:
       return state;
   }

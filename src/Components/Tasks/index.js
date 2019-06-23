@@ -10,7 +10,10 @@ import * as tasksActions from "../../Actions/tasksActions";
 
 class Tasks extends Component {
   componentDidMount() {
-    this.props.getAll();
+    if (!Object.keys(this.props.tasks).length) {
+      console.log("no tasks");
+      this.props.getAll();
+    }
   }
   showContent = () => {
     const { tasks, loading, error } = this.props;
