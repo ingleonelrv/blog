@@ -4,7 +4,8 @@ import {
   LOADING,
   ERROR,
   CHANGE_USER_ID,
-  CHANGE_TITLE
+  CHANGE_TITLE,
+  TASK_ADDED
 } from "../Types/tasksTypes";
 
 export const getAll = () => async dispatch => {
@@ -38,15 +39,34 @@ export const getAll = () => async dispatch => {
     });
   }
 };
-export const changeUserId = userId => async dispatch => {
+export const changeUserId = userId => dispatch => {
   dispatch({
     type: CHANGE_USER_ID,
     payload: userId
   });
 };
-export const changeTitle = title => async dispatch => {
+export const changeTitle = title => dispatch => {
   dispatch({
     type: CHANGE_TITLE,
     payload: title
   });
+};
+export const addTask = newTask => async dispatch => {
+  dispatch({
+    type: LOADING
+  });
+  try {
+    const response = await trae.post(
+      "https://jsonplaceholder.typicode.com/todos",
+      newTask
+    );
+    dispatch({
+      type: TASK_ADDED
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: "Tasks couldn't saved!"
+    });
+  }
 };

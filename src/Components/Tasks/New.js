@@ -10,6 +10,15 @@ class New extends Component {
   changeTitle = e => {
     this.props.changeTitle(e.target.value);
   };
+  handleSave = () => {
+    const { userId, title, addTask } = this.props;
+    const newTask = {
+      userId,
+      title,
+      completed: false
+    };
+    addTask(newTask);
+  };
   render() {
     const { userId, title } = this.props;
     return (
@@ -23,7 +32,7 @@ class New extends Component {
         <input value={title} onChange={this.changeTitle} />
         <br />
         <br />
-        <button>Save</button>
+        <button onClick={this.handleSave}>Save</button>
       </div>
     );
   }
