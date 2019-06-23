@@ -5,7 +5,8 @@ import {
   ERROR,
   CHANGE_USER_ID,
   CHANGE_TITLE,
-  TASK_SAVED
+  TASK_SAVED,
+  TASK_UPDATED
 } from "../Types/tasksTypes";
 
 export const getAll = () => async dispatch => {
@@ -89,4 +90,19 @@ export const editTask = editTask => async dispatch => {
       payload: "Tasks couldn't saved!"
     });
   }
+};
+export const changeCheckbox = (us_id, tk_id) => async (dispatch, getState) => {
+  const { tasks } = getState().tasksReducer;
+  const selected = tasks[us_id][tk_id];
+
+  const updated = { ...tasks };
+  updated[us_id] = { ...tasks[us_id] };
+  updated[us_id][tk_id] = {
+    ...tasks[us_id][tk_id],
+    completed: !selected.completed
+  };
+  dispatch({
+    type: TASK_UPDATED,
+    payload: updated
+  });
 };

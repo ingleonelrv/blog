@@ -4,7 +4,8 @@ import {
   ERROR,
   CHANGE_USER_ID,
   CHANGE_TITLE,
-  TASK_SAVED
+  TASK_SAVED,
+  TASK_UPDATED
 } from "../Types/tasksTypes";
 const INITIAL_STATE = {
   tasks: [],
@@ -36,6 +37,8 @@ function tasksReducer(state = INITIAL_STATE, { type, payload }) {
         userId: "",
         title: ""
       };
+    case TASK_UPDATED:
+      return { ...state, tasks: payload };
     default:
       return state;
   }

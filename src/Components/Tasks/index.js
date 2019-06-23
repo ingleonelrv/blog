@@ -27,13 +27,17 @@ class Tasks extends Component {
     ));
   };
   putTask = us_id => {
-    const { tasks } = this.props;
+    const { tasks, changeCheckbox } = this.props;
     const byUser = {
       ...tasks[us_id]
     };
     return Object.keys(byUser).map(tk_id => (
       <div key={tk_id}>
-        <input type="checkbox" defaultChecked={byUser[tk_id].completed} />
+        <input
+          type="checkbox"
+          defaultChecked={byUser[tk_id].completed}
+          onChange={() => changeCheckbox(us_id, tk_id)}
+        />
         {byUser[tk_id].title}
         <button className="m-left">
           <Link to={`/tasks/new/${us_id}/${tk_id}`}>Edit</Link>
