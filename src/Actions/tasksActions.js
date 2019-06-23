@@ -9,9 +9,21 @@ export const getAll = () => async dispatch => {
     const response = await trae.get(
       "https://jsonplaceholder.typicode.com/todos"
     );
+
+    //normalize data
+    const tasks = {};
+    response.data.map(
+      tk =>
+        (tasks[tk.userId] = {
+          ...tasks[tk.userId],
+          [tk.id]: {
+            ...tk
+          }
+        })
+    );
     dispatch({
       type: GET_TASKS,
-      payload: response.data
+      payload: tasks
     });
   } catch (error) {
     dispatch({

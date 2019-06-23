@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import "./Tasks.css";
+
+import Loading from "../Global/Spinner";
+import NotFound from "../Global/NotFound";
 
 import * as tasksActions from "../../Actions/tasksActions";
 
@@ -7,9 +11,33 @@ class Tasks extends Component {
   componentDidMount() {
     this.props.getAll();
   }
+  showContent = () => {
+    const { tasks, loading, error } = this.props;
+    if (error) return <NotFound message={error} />;
+    if (loading) return <Loading />;
+    //Isn't an array then
+    return Object.keys(tasks).map(us_id => (
+      <div key={us_id}>
+        <h2>User {us_id}</h2>
+        <div className="tasksContainer">{this.putTask(us_id)}</div>
+      </div>
+    ));
+  };
+  putTask = us_id => {
+    const { tasks } = this.props;
+    const byUser = {
+      ...tasks[us_id]
+    };
+    return Object.keys(byUser).map(tk_id => (
+      <div key={tk_id}>
+        <input type="checkbox" defaultChecked={byUser[tk_id].completed} />
+        {byUser[tk_id].title}
+      </div>
+    ));
+  };
   render() {
     console.log(this.props);
-    return <div>Tasks Component</div>;
+    return <div>{this.showContent()}</div>;
   }
 }
 const mapStateToProps = ({ tasksReducer }) => {
