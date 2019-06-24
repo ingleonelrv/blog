@@ -14,6 +14,14 @@ class Tasks extends Component {
       this.props.getAll();
     }
   }
+  //IF remove one task and need to reload
+  componentDidUpdate() {
+    const { tasks, loading, getAll } = this.props;
+    //&& !loading for not reload twice
+    if (!Object.keys(tasks).length && !loading) {
+      getAll();
+    }
+  }
   showContent = () => {
     const { tasks, loading, error } = this.props;
     if (error) return <NotFound message={error} />;
@@ -27,7 +35,7 @@ class Tasks extends Component {
     ));
   };
   putTask = us_id => {
-    const { tasks, changeCheckbox } = this.props;
+    const { tasks, changeCheckbox, remove } = this.props;
     const byUser = {
       ...tasks[us_id]
     };
@@ -42,7 +50,9 @@ class Tasks extends Component {
         <button className="m-left">
           <Link to={`/tasks/new/${us_id}/${tk_id}`}>Edit</Link>
         </button>
-        <button className="m-left">Delete</button>
+        <button className="m-left" onClick={() => remove(tk_id)}>
+          Delete
+        </button>
       </div>
     ));
   };

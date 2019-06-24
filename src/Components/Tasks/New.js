@@ -15,12 +15,15 @@ class New extends Component {
       },
       tasks,
       changeUserId,
-      changeTitle
+      changeTitle,
+      clearForm
     } = this.props;
     if (us_id && tk_id) {
       const task = tasks[us_id][tk_id];
       changeUserId(task.userId);
       changeTitle(task.title);
+    } else {
+      clearForm();
     }
   }
   changeUserId = e => {
